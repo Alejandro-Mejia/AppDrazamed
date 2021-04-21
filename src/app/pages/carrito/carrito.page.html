@@ -78,17 +78,24 @@
             <p class="description_product">Adjuntar formula</p>
           </div>
           <div class="section_attach" *ngIf="formulaImage !== ''">
+            <!-- <ion-button fill="clear" class="images" (click)="selectImage()">
+              <img src="../../../assets/img/RECURSOS/attach.png" width="18%">
+            </ion-button>
+            <p class="description_product1">Adjuntar formula</p> -->
             <ion-list>
-              <ion-item>
+              <ion-item lines="none">
                 <ion-thumbnail slot="start">
                   <img [src]="formulaImage" class="photo_user">
                 </ion-thumbnail>
+                <ion-label>
+                  Fórmula Médica
+                </ion-label>
                 <!-- <ion-button slot="end" fill="clear" (click)="startUpload(img)">
                   <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
-                </ion-button>
-                <ion-button slot="end" fill="clear" (click)="deleteImage(img, pos)">
+                </ion-button>-->
+                <ion-button slot="end" fill="clear" (click)="removeFormula()">
                   <ion-icon slot="icon-only" name="trash"></ion-icon>
-                </ion-button> -->
+                </ion-button>
               </ion-item>
             </ion-list>
           </div>
@@ -135,9 +142,9 @@
       </ion-row>
       <ion-row>
         <ion-col class="agregar">
-          <div *ngIf="images.length == 0">
+          <div>
 
-            <ion-button (click)="send()" class="btn-continue" expand="block" [disabled]="cart == []">C<p class="btntext">
+            <ion-button (click)="send()" class="btn-continue" expand="block" [disabled]="cart.length == 0">C<p class="btntext">
                 rear Orden</p>
             
             </ion-button>

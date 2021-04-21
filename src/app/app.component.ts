@@ -85,14 +85,14 @@ export class AppComponent {
       // this.getPush();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.localNotifications.hasPermission().then(val => {
+      /* this.localNotifications.hasPermission().then(val => {
         if (val === false){
           this.localNotifications.requestPermission();
         }
         else if (val === true){
           console.log('hay permisos');
         }
-      });
+      }); */
 
       this.setupFCM();
 
@@ -100,7 +100,7 @@ export class AppComponent {
 
   }
 
-  pushSet() {
+  /* pushSet() {
     const pusher = new Pusher('270a27c11d1a38de071b', {
       cluster: 'us2',
     });
@@ -120,7 +120,7 @@ export class AppComponent {
         });
       }
     });
-  }
+  } */
   
   async sendToma(treatment_id, body){
     this.user = this.auth.getusuario();
