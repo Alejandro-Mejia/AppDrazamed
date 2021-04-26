@@ -16,6 +16,9 @@ export class MispedidosPage implements OnInit {
   isYesClicked = false;
   isNoClicked = false;
   base_url: any;
+  comentarios: any;
+  datatoSend: any;
+  nombre: any;
   user1: any;
   userid: any;
   orders: any;
@@ -26,30 +29,35 @@ export class MispedidosPage implements OnInit {
   push: any;
   push1: any;
   userid1: any;
+  code: any;
+  code2: any;
   cart_med: any;
   id: any;
   user: any;
   payment_url = `medicine/make-mercado-pago-payment/`;
+  postUrl = `user/contact-us`;
   ad: any;
   address: any;
   linkpay: any;
   status: any;
   invoice_i: any;
+  calificado = false;
   precio: any;
   pendientes = [];
   completados = [];
   constructor(private iab: InAppBrowser, private router: Router, private http: HttpClient, private auth: AuthService, private menuCtrl: MenuController,
     private config: ConfigService, private alertController: AlertController, private loadingController: LoadingController,
     private tratamientoService: TratamientosService) {
-       this.base_url = config.get_base_url();
-       this.user1 = this.auth.getusuario();
+    this.base_url = config.get_base_url();
+    this.user1 = this.auth.getusuario();
     this.userid = this.user1.email;
     this.orders = this.http.get(`${this.base_url}my-prescriptions?email=${this.userid}`).subscribe((val: any) => {
       this.orden = val;
-      for(let notVer of this.orden){
-        if(notVer.status === 1 || notVer.status === 2){
-         this.pendientes.push(notVer);
-        }else if(notVer.status >= 4){
+      for (let notVer of this.orden) {
+        if (notVer.status === 1 || notVer.status === 2) {
+          this.pendientes.push(notVer);
+        } else if (notVer.status >= 4) {
+          notVer.qualified = 0;
           this.completados.push(notVer);
         }
       }
@@ -67,8 +75,101 @@ export class MispedidosPage implements OnInit {
   ionViewWillEnter() {
     this.menuCtrl.enable(false);
     this.tratamientoService.getTreatmen();
+  }
+  calificar(pedido) {
+    console.log('pedido: ', pedido);
+    for (let qual of this.completados) {
+      if (pedido.id === qual.id) {
+        qual.qualified = 1;
+      }
+    }
 
-    
+    console.log(': ', this.completados);
+    this.calificado = true;
+  }
+  async logRatingChange(rates) {
+    console.log('rates: ', rates);
+    if (rates >= 4) {
+      const alert = await this.alertController.create({
+        message: '<img src = "../../assets/img/RECURSOS/check.png" class="alert">Tu opinión ha sido enviada.',
+        mode: 'ios',
+        cssClass: 'failed',
+        buttons: [
+          {
+            text: 'Aceptar',
+            handler: d => {
+              this.calificado = false;
+            },
+            cssClass: 'btnalert',
+          }
+        ]
+      });
+      await alert.present();
+    } else if (rates <= 3) {
+      const input = await this.alertController.create({
+        header: '¡Cuentanos tu opinión!',
+        cssClass: 'failed',
+        mode: 'ios',
+        buttons: [
+          {
+            text: 'Enviar',
+            cssClass: 'btnalert',
+            handler: async (data) => {
+              this.comentarios = data.comentario;
+              this.user1 = this.auth.getusuario();
+              this.userid = this.user1.email;
+              this.nombre = this.user1.name;
+              this.datatoSend = {
+                name: this.nombre,
+                phone: '',
+                msg: this.comentarios,
+                email: this.userid,
+              };
+              const loading = await this.loadingController.create({
+                cssClass: 'loading',
+                message: 'Por favor espera...',
+                mode: 'ios',
+                spinner: 'dots'
+              });
+              await loading.present();
+              this.http.post(`${this.base_url}${this.postUrl}`, this.datatoSend).
+                subscribe(async (val) => {
+                  loading.dismiss();
+                  this.code = val;
+                  this.code2 = this.code.status;
+                  if (this.code2 === 'SUCCESS') {
+                    const alert = await this.alertController.create({
+                      message: '<img src = "../../assets/img/RECURSOS/check.png" class="alert">Tu comentario fue enviado.',
+                      mode: 'ios',
+                      cssClass: 'failed',
+                      buttons: [
+                        {
+                          text: 'Aceptar',
+                          handler: d => {
+                            this.calificado = false;
+                          },
+                          cssClass: 'btnalert',
+                        }
+                      ]
+                    });
+                    await alert.present();
+                  }
+                });
+            }
+          }
+        ],
+        inputs: [
+          {
+            name: 'comentario',
+            cssClass: 'inputs',
+            type: 'textarea',
+            placeholder: 'Escribe tu comentario'
+          }
+        ]
+      });
+
+      await input.present();
+    }
   }
   goOpen(ordenes) {
 

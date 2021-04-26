@@ -81,8 +81,13 @@
           </ion-col>
         </ion-row>
         <ion-row class="mt-20">
-            <ion-col size="6">
-              <ion-button class="calificar_btn">C<p class="btntext">alificar</p></ion-button>
+            <ion-col size="6" *ngIf="v.qualified == 0">
+              <ion-button class="calificar_btn" (click)="calificar(v)">C<p class="btntext">alificar</p></ion-button>
+            </ion-col>
+            <ion-col size="6" class="rating" *ngIf="calificado == true && v.qualified == 1">
+              <ionic5-star-rating #rating activeIcon="star" defaultIcon="star-outline" activeColor="#009bd7"
+                defaultColor="#aaaaaa" readonly="false" fontSize="28px" (ratingChanged)="logRatingChange($event)">
+              </ionic5-star-rating>
             </ion-col>
             <ion-col size="6">
               <ion-button class="btn_product" color="medium" (click)="goClosed(v)">V<p class="btntext">er detalles</p></ion-button>

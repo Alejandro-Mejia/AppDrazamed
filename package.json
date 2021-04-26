@@ -52,6 +52,8 @@
     "cordova-plugin-nativestorage": "^2.3.2",
     "cordova-sqlite-storage": "^5.1.0",
     "cordova-support-google-services": "^1.4.1",
+    "ionic4-star-rating": "^1.1.1",
+    "ionic5-star-rating": "https://github.com/JeongJun-Lee/ionic5-star-rating/tarball/master",
     "jquery": "^3.5.1",
     "mercadopago": "^1.3.2",
     "moment": "^2.29.1",

@@ -1,8 +1,8 @@
 <ion-header class="ion-no-border" mode="ios">
   <div class="div-header">
-  <ion-toolbar class="header-styles">
-    <img class="content-image" src="../../assets/img/LOGOS/LOGOS DRAZAMED_Mesa de trabajo 1.png" alt="">
-  </ion-toolbar>
+    <ion-toolbar class="header-styles">
+      <img class="content-image" src="../../assets/img/LOGOS/LOGOS DRAZAMED_Mesa de trabajo 1.png" alt="">
+    </ion-toolbar>
     <ion-buttons class="btn_i">
       <ion-menu-button slot="start" menu="main-menu"></ion-menu-button>
       <ion-button class="carrito" (click)="goCarrito()">
@@ -14,68 +14,75 @@
 </ion-header>
 
 <ion-content>
-<div class="container">
-  <ion-row class="pt-30">
-    <ion-col size="12">
-      <div class="row_title">
-        <p class="principal_text">Complete el siguiente formulario y estaremos atentos para resolver sus dudas</p>
-        <p class="description_product">Sientase tranquilo de comunicarse con nosotros. Estaremos muy felices de ayudarle.</p>
-      </div>
+  <div class="container">
+    <ion-row class="pt-30">
+      <ion-col size="12">
+        <div class="row_title">
+          <p class="principal_text">Complete el siguiente formulario y estaremos atentos para resolver sus dudas</p>
+          <p class="description_product">Sientase tranquilo de comunicarse con nosotros. Estaremos muy felices de
+            ayudarle.</p>
+        </div>
         <div class="custom_form">
-          <form [formGroup]="mensajesForm" > <!-- (ngSubmit)="submit()" -->
+          <form [formGroup]="mensajesForm">
+            <!-- (ngSubmit)="submit()" -->
             <div class="form-group">
               <ion-label class="grey">Nombre Completo</ion-label>
-              <ion-input formControlName="nombre" type="text" class="form-control" [(ngModel)]="dataToSend.name"></ion-input>
+              <ion-input formControlName="nombre" type="text" class="form-control" [(ngModel)]="dataToSend.name">
+              </ion-input>
             </div>
 
             <div class="form-group">
               <ion-label class="grey">Teléfono de Contacto</ion-label>
-              <ion-input formControlName="telefono" type="number" class="form-control" [(ngModel)]="dataToSend.phone"></ion-input>
+              <ion-input formControlName="telefono" type="number" class="form-control" [(ngModel)]="dataToSend.phone">
+              </ion-input>
             </div>
 
             <div class="form-group">
               <ion-label class="grey">Correo Electrónico</ion-label>
-              <ion-input formControlName="correo" type="email" class="form-control" [(ngModel)]="dataToSend.email"></ion-input>
+              <ion-input formControlName="correo" type="email" class="form-control" [(ngModel)]="dataToSend.email">
+              </ion-input>
             </div>
 
             <div class="form-group">
               <ion-label class="grey">Mensaje</ion-label>
-              <ion-textarea rows="7" cols="30" formControlName="mensaje" class="form-control" [(ngModel)]="dataToSend.msg"></ion-textarea>
+              <ion-textarea rows="7" cols="30" formControlName="mensaje" class="form-control"
+                [(ngModel)]="dataToSend.msg"></ion-textarea>
             </div>
-            <ion-button [disabled]="!mensajesForm.valid" class="btn-continue" expand="block" (click)="postData()">Enviar</ion-button>
+            <ion-button [disabled]="!mensajesForm.valid" class="btn-continue" expand="block" (click)="postData()">Enviar
+            </ion-button>
           </form>
         </div>
-    </ion-col>
-  </ion-row>
-  <ion-row class="result_search pt-20 pb-20">
+      </ion-col>
+    </ion-row>
+    <ion-row class="result_search pt-20 pb-20">
 
-    <ion-col size="3" class="center pt-15">
- 
+      <ion-col size="3" class="center pt-15">
+
         <img src="../../../assets/img/RECURSOS/phone.png" width="30px" class="imagenes">
- 
-    </ion-col>
-    <ion-col size="9" class="pt-15">
-       <p class="name_category_new">Teléfonos de Contacto</p>
-       <p class="description_product">(1) 879-3999</p>
-    </ion-col>
 
-    <ion-col size="3" class="center pt-15">
-      
+      </ion-col>
+      <ion-col size="9" class="pt-15">
+        <p class="name_category_new">Teléfonos de Contacto</p>
+        <p class="description_product">(1) 879-3999</p>
+      </ion-col>
+
+      <ion-col size="3" class="center pt-15">
+
         <img src="../../../assets/img/RECURSOS/iconos drazamed-cc-32.png" width="30px" class="imagenes">
-    
-    </ion-col>
-    <ion-col size="9" class="pt-15">
-       <p class="name_category_new">Nuestra Ubicación</p>
-       <p class="description_product">Carrera 6 No. 1-20 Cajicá - Cundinamarca</p>
-    </ion-col>
 
-    <ion-col size="3" class="center pt-15">
+      </ion-col>
+      <ion-col size="9" class="pt-15">
+        <p class="name_category_new">Nuestra Ubicación</p>
+        <p class="description_product">Carrera 6 No. 1-20 Cajicá - Cundinamarca</p>
+      </ion-col>
+
+      <ion-col size="3" class="center pt-15">
         <img src="../../../assets/img/RECURSOS/iconos drazamed-cc-11.png" width="30px" class="imagenes">
-    </ion-col>
-    <ion-col size="9" class="pt-15">
-       <p class="name_category_new">Correo Electrónico</p>
-       <p class="description_product">info@drazamed.com</p>
-    </ion-col>
-  </ion-row>
-</div>
+      </ion-col>
+      <ion-col size="9" class="pt-15">
+        <p class="name_category_new">Correo Electrónico</p>
+        <p class="description_product">info@drazamed.com</p>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>
