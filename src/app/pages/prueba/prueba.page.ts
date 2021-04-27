@@ -40,6 +40,7 @@ export class PruebaPage implements OnInit {
   items: any;
   loop: any;
   currentnot: any;
+  status: any;
   currentnot1: any;
   currentnot3: any;
   tratamiento: any;
@@ -166,6 +167,14 @@ export class PruebaPage implements OnInit {
       console.log(this.alarmas);
       this.router.navigate(['home']);
       this.alarmasForm.reset();
+      this.status = {
+        email: this.userid,
+	      item_code: this.medicamento.item_code,
+	      active: true
+      }
+      this.http.post(`${this.base_url}treatment/update-active-status`, this.status).subscribe(respuesta => {
+      console.log('Tratamiento activo: ', respuesta);
+      });
     });
   }
 

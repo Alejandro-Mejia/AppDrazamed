@@ -14,6 +14,8 @@ export class TratamientosService {
 
   alarm = [];
   alarmas = [];
+  proxima = [];
+  prox: any;
   key = 'getAlarma';
   apiUrl = `my-treatments?email=`
   base_url: any;
@@ -42,6 +44,7 @@ export class TratamientosService {
       clearInterval(this.intervalos[tim.item_code]);
     }
     this.proxPedido.splice(0, this.proxPedido.length);
+    this.proxima.splice(0, this.proxima.length);
     this.alarm.splice(0, this.alarm.length);
     this.items2.splice(0, this.items2.length);
     this.user1 = this.auth.getusuario();
@@ -57,6 +60,11 @@ export class TratamientosService {
         item.medicines[0].frequency = item.frequency;
         item.medicines[0].taken = item.taken;
         item.medicines[0].total = item.total;
+        if(item.active == 1){
+          item.medicines[0].active = true;
+        }else{
+          item.medicines[0].active = false;
+        }
         item.medicines[0].buy_time = moment(item.buy_time).format();
         item.medicines[0].isReorden = item.hasReorden;
         this.items3 = item.medicines
@@ -66,16 +74,26 @@ export class TratamientosService {
         }
       }
       for (let time of this.alarm) {
+        if(time.next_date !== null){
+          this.proxima.push(time.buy_time);
+          }
         this.TimeRemaining(time.item_code, time.next_date);
       }
       console.log(this.alarm);
+      this.prox = 0;
+      console.log(': this.proxima', this.proxima);
+      let prxFormatted = this.proxima.map(f => moment(f));
+      this.prox = moment.min(prxFormatted).format('ll');
+      console.log('this.prox: ', this.prox);
       this.setCurrentPedido(this.alarm);
     });
   }
   getAlarma() {
     return this.alarm;
   }
-
+  proximaEntrega(){
+    return this.prox;
+  }
   TimeRemaining(item_code, next_time) {
     if (next_time !== null) {
       let alarma = {

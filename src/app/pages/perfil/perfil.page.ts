@@ -48,6 +48,7 @@ export class PerfilPage implements OnInit, OnDestroy {
   proxima = [];
   prox: any;
   alarma: any;
+  treatment_status: any;
   user1: any;
   userid: any;
   apiUrl = `my-treatments?email=`;
@@ -87,18 +88,51 @@ export class PerfilPage implements OnInit, OnDestroy {
     this.alarmas = this.tratamientoService.getAlarma();
     console.log(this.alarmas);
     console.log('perfil pagina')
-    this.proximaEntrega();
+    this.prox = this.tratamientoService.proximaEntrega();
+    console.log('this.prox: ', this.prox);
+    
     let prox = this.tratamientoService.getProxPedido();
     console.log('prox: ', prox);
   }
   ngOnDestroy() {
 
   }
-  proximaEntrega(){
+ /*  toggleEvent(activo, alarma){
+    this.user = this.auth.getusuario();
+    this.userid = this.user.email;
+  if(activo.detail.checked == false){
+    alarma.active = false;
+    /* this.treatment_status = {
+      email: this.userid,
+	    item_code: alarma.item_code,
+	    active: false
+    }
+    this.http.post(`${this.base_url}treatment/update-active-status`, this.treatment_status).subscribe(respuesta => {
+      console.log('Tratamiento activo: ', respuesta);
+      }); 
+      
+console.log(': ', 1);
+  }else if(activo.detail.checked == true){
+    alarma.active = true;
+    /*  this.treatment_status = {
+      email: this.userid,
+	    item_code: alarma.item_code,
+	    active: true
+    }
+    this.http.post(`${this.base_url}treatment/update-active-status`, this.treatment_status).subscribe(respuesta => {
+      console.log('Tratamiento activo: ', respuesta);
+    }); 
+    
+console.log(': ', 2);
+  }
+  } */
+  /* proximaEntrega(){
     this.proxima.splice(0, this.proxima.length);
     this.prox = 0;
     for (let al of this.alarmas) {
+      if(al.next_date !== null){
       this.proxima.push(al.buy_time);
+      }
       // this.tratamientoService.TimeRemaining(al.item_code, al.next_date);
     }
     console.log(': this.proxima', this.proxima);
@@ -106,7 +140,7 @@ export class PerfilPage implements OnInit, OnDestroy {
     this.prox = moment.min(prxFormatted).format('ll');
     console.log('this.prox: ', this.prox);
     return this.prox;
-  }
+  } */
   async addComment() {
     const input = await this.alertCtrl.create({
       header: '¿Cómo va tu tratamiento?',
@@ -218,7 +252,7 @@ export class PerfilPage implements OnInit, OnDestroy {
           handler: data => {
             this.tratamientoService.removeAlarm(alarma);
             this.tratamientoService.rmMedProxPedido(alarma);
-            this.proximaEntrega();
+            this.prox = this.tratamientoService.proximaEntrega();
           }
         },
         {

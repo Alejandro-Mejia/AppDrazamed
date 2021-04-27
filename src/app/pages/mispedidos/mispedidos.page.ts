@@ -18,6 +18,7 @@ export class MispedidosPage implements OnInit {
   base_url: any;
   comentarios: any;
   datatoSend: any;
+  datatoSend1: any;
   nombre: any;
   user1: any;
   userid: any;
@@ -31,6 +32,8 @@ export class MispedidosPage implements OnInit {
   userid1: any;
   code: any;
   code2: any;
+  code1: any;
+  code3: any;
   cart_med: any;
   id: any;
   user: any;
@@ -90,21 +93,46 @@ export class MispedidosPage implements OnInit {
   async logRatingChange(rates) {
     console.log('rates: ', rates);
     if (rates >= 4) {
-      const alert = await this.alertController.create({
-        message: '<img src = "../../assets/img/RECURSOS/check.png" class="alert">Tu opinión ha sido enviada.',
+      const loading1 = await this.loadingController.create({
+        cssClass: 'loading',
+        message: 'Por favor espera...',
         mode: 'ios',
-        cssClass: 'failed',
-        buttons: [
-          {
-            text: 'Aceptar',
-            handler: d => {
-              this.calificado = false;
-            },
-            cssClass: 'btnalert',
-          }
-        ]
+        spinner: 'dots'
       });
-      await alert.present();
+      await loading1.present();
+      this.user1 = this.auth.getusuario();
+      this.userid = this.user1.email;
+      this.nombre = this.user1.name;
+      this.datatoSend1 = {
+        name: this.nombre,
+        phone: '',
+        msg: `Estoy satisfecho con mi pedido. Calificación: ${rates} estrellas.`,
+        email: this.userid,
+      };
+      this.http.post(`${this.base_url}${this.postUrl}`, this.datatoSend1).
+        subscribe(async (val) => {
+          loading1.dismiss();
+          this.code1 = val;
+          this.code3 = this.code1.status;
+          if (this.code3 === 'SUCCESS'){
+          const alert = await this.alertController.create({
+            message: '<img src = "../../assets/img/RECURSOS/check.png" class="alert">Tu comentario fue enviado.',
+            mode: 'ios',
+            cssClass: 'failed',
+            buttons: [
+              {
+                text: 'Aceptar',
+                handler: d => {
+                  this.calificado = false;
+                },
+                cssClass: 'btnalert',
+              }
+            ]
+          });
+          await alert.present();
+          }
+        });
+
     } else if (rates <= 3) {
       const input = await this.alertController.create({
         header: '¡Cuentanos tu opinión!',
@@ -122,7 +150,7 @@ export class MispedidosPage implements OnInit {
               this.datatoSend = {
                 name: this.nombre,
                 phone: '',
-                msg: this.comentarios,
+                msg: `${this.comentarios}. Calificación: ${rates} estrellas.`,
                 email: this.userid,
               };
               const loading = await this.loadingController.create({
