@@ -79,6 +79,7 @@ export class AuthService {
     data.subscribe(result => {
       this.items = result;
       this.items2 = this.items.data.status;
+      console.log('items en el primer get',this.items)
       if (this.items) {
         this.usuario = { name: this.items.name, email: this.items.email, user_id: this.items.data.user_id };
       }
@@ -104,9 +105,6 @@ export class AuthService {
         return of(null);
       }
     }, () => {
-    console.log(':logueo exitoso mediante correo', this.items);
-    this.usuario = { name: this.items.name, email: this.items.email, user_id: this.items.data.user_id };   
-    console.log('this.usuario: ', this.usuario);
     this.normalLogin = true;
     });
 
@@ -125,6 +123,11 @@ export class AuthService {
         /* if (this.items2 !== 'ACTIVE'){
           return of(null);
         } */
+        if(this.items){
+          this.usuario = { name: this.items.name, email: this.items.email, user_id: this.items.data.user_id };   
+
+        }
+        console.log('usuarios info', this.usuario);
         return  storageObs;
       })
     );

@@ -128,9 +128,9 @@
             <p class="grey" *ngIf="al.timeH === 0 && al.timeD === 0 && al.timeM === 0 && al.next_date !== null">Recalculando próxima toma</p>
             <p class="grey" *ngIf="al.next_date === null">Fin del tratamiento</p>
          </ion-col>
-         <ion-col size="1">
+         <!-- <ion-col size="1">
           <ion-toggle checked mode="ios" class="toggle"  [(ngModel)]="al.active"></ion-toggle>
-         </ion-col>
+         </ion-col> -->
          <ion-col size="5">
           <ion-buttons>
             <ion-button class="trash" (click)="removetreatment(al)"><img src="../../../assets/img/RECURSOS/trash.png"
