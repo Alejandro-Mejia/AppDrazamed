@@ -79,9 +79,9 @@ export class AuthService {
     data.subscribe(result => {
       this.items = result;
       this.items2 = this.items.data.status;
-      /* if (this.items) {
+      if (this.items) {
         this.usuario = { name: this.items.name, email: this.items.email, user_id: this.items.data.user_id };
-      } */
+      }
     }, async (err: HttpErrorResponse) => {
       this.items3 = err.status;
       console.log('this.items3: ', this.items3);
@@ -182,18 +182,18 @@ export class AuthService {
 
 
   logout() {
-    console.log('normal login', this.normalLogin);
-    console.log('google login', this.googleLogin);
+    /* console.log('normal login', this.normalLogin);
+    console.log('google login', this.googleLogin); */
     // console.log('facebook login', this.fbLogin);
 
-    if(this.normalLogin === true){
+    
       this.storage.remove(TOKEN_KEY).then(() => {
         window.localStorage.removeItem(USUARIOS);
         this.router.navigateByUrl('/login1');
         this.userData.next(null);
         this.normalLogin = false;
       }); 
-    }
+    
     
     
     // else if(this.googleLogin === true){
