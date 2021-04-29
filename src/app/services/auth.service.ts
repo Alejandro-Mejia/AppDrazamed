@@ -115,6 +115,10 @@ export class AuthService {
         return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkRyYXphbWVkIiwiaWF0IjoxNTE2MjM5MDIyfQ.4x0iejWjRVH3V7ULcX0-vRmxeR8NLdlFGvx69CuBrrY`;
       }),
       switchMap((token) => {
+        if(this.items){
+          this.usuario = { name: this.items.name, email: this.items.email, user_id: this.items.data.user_id };   
+        }
+        console.log('usuarios info', this.usuario);
         let decoded = helper.decodeToken(token);
         // console.log('login decoded: ', decoded);
         this.userData.next(decoded);
@@ -123,11 +127,6 @@ export class AuthService {
         /* if (this.items2 !== 'ACTIVE'){
           return of(null);
         } */
-        if(this.items){
-          this.usuario = { name: this.items.name, email: this.items.email, user_id: this.items.data.user_id };   
-
-        }
-        console.log('usuarios info', this.usuario);
         return  storageObs;
       })
     );
