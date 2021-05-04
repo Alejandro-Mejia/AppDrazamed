@@ -98,12 +98,8 @@ export class Login2Page implements OnInit {
     });
     await loading.present();
     this.auth.login(this.credentials)
-      .pipe(
-        finalize(() => {
-          loading.dismiss();
-        })
-      )
       .subscribe(async res => {
+        loading.dismiss();
       console.log('res: ', res);
         
         if (res) {

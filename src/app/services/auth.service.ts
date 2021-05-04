@@ -79,10 +79,13 @@ export class AuthService {
     data.subscribe(result => {
       this.items = result;
       this.items2 = this.items.data.status;
-      console.log('items en el primer get',this.items)
+      console.log('items en el primer get');
+      console.log(this.items);
       if (this.items) {
         this.usuario = { name: this.items.name, email: this.items.email, user_id: this.items.data.user_id };
       }
+      console.log('usuarios info');
+console.log(this.usuario);
     }, async (err: HttpErrorResponse) => {
       this.items3 = err.status;
       console.log('this.items3: ', this.items3);
@@ -108,28 +111,34 @@ export class AuthService {
     this.normalLogin = true;
     });
 
-
+  
     return this.http.get(`${this.base_url}${this.apiURL}email=${credentials.email}&password=${credentials.password}`).pipe(
       take(1),
       map(res => {
         return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkRyYXphbWVkIiwiaWF0IjoxNTE2MjM5MDIyfQ.4x0iejWjRVH3V7ULcX0-vRmxeR8NLdlFGvx69CuBrrY`;
       }),
       switchMap((token) => {
-        if(this.items){
+        /* if(this.items){
           this.usuario = { name: this.items.name, email: this.items.email, user_id: this.items.data.user_id };   
-        }
-        console.log('usuarios info', this.usuario);
+        } */
+        if(this.items){
         let decoded = helper.decodeToken(token);
         // console.log('login decoded: ', decoded);
         this.userData.next(decoded);
-        window.localStorage.setItem(USUARIOS, JSON.stringify(this.usuario));
-        let storageObs = from(this.storage.set(TOKEN_KEY, token));
+        
+          window.localStorage.setItem(USUARIOS, JSON.stringify(this.usuario));
+           let storageObs = from(this.storage.set(TOKEN_KEY, token));
+           return  storageObs;
+        }  
+       
         /* if (this.items2 !== 'ACTIVE'){
           return of(null);
         } */
-        return  storageObs;
+       
       })
     );
+  
+   
   }
 
   // loginGoogle(datas){
