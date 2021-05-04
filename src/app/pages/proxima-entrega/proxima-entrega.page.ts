@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, LoadingController, MenuController } from '@ionic/angular';
@@ -24,6 +24,7 @@ export class ProximaEntregaPage implements OnInit {
   conditionSmaller: any;
   base_url: any;
   subtotal: any;
+  imgUrl = `images/products/default.png`;
   apiImg = `images/products/`;
   apiUrl8 = `.jpg`;
   orden: any;
@@ -35,6 +36,7 @@ export class ProximaEntregaPage implements OnInit {
   subtotal1: any;
   formula = [];
   code: any;
+  error1: any;
   code2: any;
   total: any;
   tax1: any;
@@ -84,7 +86,21 @@ export class ProximaEntregaPage implements OnInit {
     }
     this.pedidoArr = this.pedidoArr1.filter(function (item, index, array) {
       return array.indexOf(item) === index;
-    })
+    });
+    for(let imgs of this.pedidoArr){
+      this.http.get(`${this.base_url}${this.apiImg}${imgs.item_code}${this.apiUrl8}`).subscribe((val) => {
+
+      }, async (err: HttpErrorResponse) => {
+        this.error1 = err.status;
+        console.log(this.error1);
+        if(this.error1 === 404){
+          imgs.imagen = true;
+        }
+        else{
+          imgs.imagen = false;
+        }
+      });
+    }
     console.log(': pedido arr ', this.pedidoArr);
   }
 

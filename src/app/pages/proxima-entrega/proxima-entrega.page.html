@@ -19,8 +19,11 @@
   <div class="container">
     <ion-row class="result_search" *ngFor="let p of pedidoArr">
       <ion-col size="3" class="align-self-center">
-        <div>
+        <div *ngIf="p.imagen === false">
           <img src={{base_url}}{{apiImg}}{{p.item_code}}{{apiUrl8}} class="img_product" width="100%">
+        </div>
+        <div *ngIf="p.imagen === true">
+          <img src={{base_url}}{{imgUrl}} class="img_product" width="100%">
         </div>
       </ion-col>
 

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MenuController, AlertController, ActionSheetController, ToastController, Platform, LoadingController } from '@ionic/angular';
 import { CartService } from 'src/app/services/cart.service';
 import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Storage } from '@ionic/storage';
 
@@ -63,6 +63,7 @@ export class CarritoPage implements OnInit {
   tax2: any;
   division: any;
   subtotal2: any;
+  error1: any;
   async ngOnInit() {
   }
 
@@ -71,6 +72,21 @@ export class CarritoPage implements OnInit {
   }
   async ionViewWillEnter() {
     this.cart = this.cartService.getCart();
+    console.log(this.cart);
+    for(let imgs of this.cart){
+      this.http.get(`${this.base_url}${this.apiImg}${imgs.item_code}${this.apiUrl8}`).subscribe((val) => {
+
+      }, async (err: HttpErrorResponse) => {
+        this.error1 = err.status;
+        console.log(this.error1);
+        if(this.error1 === 404){
+          imgs.imagen = true;
+        }
+        else{
+          imgs.imagen = false;
+        }
+      });
+    }
     console.log(this.cart);
     this.menuCtrl.enable(false);
     this.user = this.auth.getusuario();
