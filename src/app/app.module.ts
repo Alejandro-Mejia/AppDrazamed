@@ -33,7 +33,7 @@ import {FCM} from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(),
+  imports: [BrowserModule, IonicModule.forRoot({animated: false}), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(),
   ],
   providers: [
     StatusBar,

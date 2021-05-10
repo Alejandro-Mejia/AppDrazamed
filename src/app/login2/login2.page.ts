@@ -98,14 +98,14 @@ export class Login2Page implements OnInit {
     });
     await loading.present();
     this.auth.login(this.credentials)
-      .subscribe(async res => {
+      .then(async (res: any) => {
         loading.dismiss();
-      console.log('res: ', res);
+      console.log('respuesta login: ', res); 
         
-        if (res) {
+        if (res.status == 'SUCCESS') {
           this.tratamientoService.getAlarma();
-          this.postFCM();
           this.router.navigate(['home']);
+          this.postFCM();
           if (this.accept === true) {
             window.localStorage.setItem(this.key, JSON.stringify(this.credentials));
             window.localStorage.setItem(this.key1, JSON.stringify(this.accept = true));
@@ -120,7 +120,7 @@ export class Login2Page implements OnInit {
             /*this.storage.remove(this.key);
             this.storage.remove(this.key1);*/
           }
-        } else {
+        } /* else {
           const alert = await this.alertController.create({
             header: 'Login Failed',
             message: '<img src = "../../assets/img/RECURSOS/iconos drazamed-27.png" class="alert">Usuario o contraseña incorrectos',
@@ -134,7 +134,9 @@ export class Login2Page implements OnInit {
             ]
           });
           await alert.present();
-        }
+        } */
+      }).catch(error => {
+      loading.dismiss();
       });
   }
 
