@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CheckoutPageRoutingModule } from './checkout-routing.module';
+import { FakeCatPageRoutingModule } from './fake-cat-routing.module';
 
-import { CheckoutPage } from './checkout.page';
+import { FakeCatPage } from './fake-cat.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CheckoutPageRoutingModule
+    FakeCatPageRoutingModule
   ],
-  declarations: [CheckoutPage]
+  declarations: [FakeCatPage]
 })
-export class CheckoutPageModule {}
+export class FakeCatPageModule {}

@@ -291,98 +291,119 @@ export class CarritoPage implements OnInit {
 
 
   async send() {
-    if(this.requiredFormula == true){
-  this.showAlert3();
-    }else{
-    const loading = await this.loadingController.create({
-      cssClass: 'loading',
-      message: 'Por favor espera...',
+    const alert1 = await this.alertCtrl.create({
+      
+      message: `<img src = "../../assets/img/RECURSOS/iconos drazamed-27.png" class="alert1">Tu orden será entregada entre 24 y 48 horas`,
       mode: 'ios',
-      spinner: 'dots'
+      cssClass: 'failed',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'btnalert',
+          handler: async r => {
+            if(this.requiredFormula == true){
+              this.showAlert3();
+                }else{
+                const loading = await this.loadingController.create({
+                  cssClass: 'loading',
+                  message: 'Por favor espera...',
+                  mode: 'ios',
+                  spinner: 'dots'
+                });
+                await loading.present();
+            
+                this.user1 = this.auth.getusuario();
+                this.userid = this.user1.email;
+                console.log(this.formulaImage);
+                for (let code of this.cart) {
+                  this.item_code.push(code.item_code);
+                  this.cantidad.push(code.medicine_count);
+                  this.formula.push(code.is_pres_required);
+                }
+                this.orden = {
+                  email: this.userid,
+                  cart_length: this.cart.length,
+                  shipping_cost: 2000,
+                  quantity: this.cantidad,
+                  is_pres_required: 0,
+                  item_code: this.item_code,
+                  prescription: this.formulaImage
+                };
+                this.http.post(`${this.base_url}medicine/store-prescription/0`,
+                  this.orden, { headers: new HttpHeaders({ "Content-Type": "application/json" }) })
+                  .pipe(
+                    finalize(() => {
+                      loading.dismiss();
+                    })
+                  )
+                  .subscribe(async (mensaje) => {
+                    this.code = mensaje;
+                    this.code2 = this.code.status;
+                    if (this.code2 === 'SUCCESS') {
+                      const alert = await this.alertCtrl.create({
+                        message: '<img src = "../../assets/img/RECURSOS/check.png" class="alert">Tu orden fue creada',
+                        mode: 'ios',
+                        cssClass: 'failed',
+                        backdropDismiss: false,
+                        buttons: [
+                          {
+                            text: 'Aceptar',
+                            cssClass: 'btnalert',
+                            handler: (data) => { alert2.present(); }
+                          }
+                        ]
+                      });
+                      const alert2 = await this.alertCtrl.create({
+                        message: '<img src = "../../assets/img/RECURSOS/check.png" class="alert">En algunos minutos verificaremos tu orden',
+                        mode: 'ios',
+                        cssClass: 'failed',
+                        backdropDismiss: false,
+                        buttons: [
+                          {
+                            text: 'Aceptar',
+                            cssClass: 'btnalert',
+                            handler: (data) => { this.router.navigate(['mispedidos']); }
+                          }
+                        ]
+                      });
+            
+                      this.http.get(`${this.base_url}${this.delete_cart}${this.userid}`).subscribe(val => {
+                        console.log(val);
+                      });
+                      this.cartService.removeAll();
+                      this.formulaImage = "";
+                      this.requiredFormula = false;
+                      await alert.present();
+            
+                    }
+                    else {
+                      console.log(mensaje);
+                      const alert = await this.alertCtrl.create({
+                        message: '<img src = "../../assets/img/RECURSOS/wrong.png" class="alert">Su orden no fue creada, intente de nuevo',
+                        mode: 'ios',
+                        cssClass: 'failed',
+                        backdropDismiss: false,
+                        buttons: [
+                          {
+                            text: 'Aceptar',
+                            cssClass: 'btnalert',
+                          }
+                        ]
+                      });
+                      await alert.present();
+                    }
+                  });
+                }
+          }
+        },
+        {
+          text: 'Cancelar',
+          cssClass: 'btnalert',
+        }
+      ]
     });
-    await loading.present();
-
-    this.user1 = this.auth.getusuario();
-    this.userid = this.user1.email;
-    console.log(this.formulaImage);
-    for (let code of this.cart) {
-      this.item_code.push(code.item_code);
-      this.cantidad.push(code.medicine_count);
-      this.formula.push(code.is_pres_required);
-    }
-    this.orden = {
-      email: this.userid,
-      cart_length: this.cart.length,
-      shipping_cost: 2000,
-      quantity: this.cantidad,
-      is_pres_required: 0,
-      item_code: this.item_code,
-      prescription: this.formulaImage
-    };
-    this.http.post(`${this.base_url}medicine/store-prescription/0`,
-      this.orden, { headers: new HttpHeaders({ "Content-Type": "application/json" }) })
-      .pipe(
-        finalize(() => {
-          loading.dismiss();
-        })
-      )
-      .subscribe(async (mensaje) => {
-        this.code = mensaje;
-        this.code2 = this.code.status;
-        if (this.code2 === 'SUCCESS') {
-          const alert = await this.alertCtrl.create({
-            message: '<img src = "../../assets/img/RECURSOS/check.png" class="alert">Tu orden fue creada',
-            mode: 'ios',
-            cssClass: 'failed',
-            backdropDismiss: false,
-            buttons: [
-              {
-                text: 'Aceptar',
-                cssClass: 'btnalert',
-                handler: (data) => { alert2.present(); }
-              }
-            ]
-          });
-          const alert2 = await this.alertCtrl.create({
-            message: '<img src = "../../assets/img/RECURSOS/check.png" class="alert">En algunos minutos verificaremos tu orden',
-            mode: 'ios',
-            cssClass: 'failed',
-            backdropDismiss: false,
-            buttons: [
-              {
-                text: 'Aceptar',
-                cssClass: 'btnalert',
-                handler: (data) => { this.router.navigate(['mispedidos']); }
-              }
-            ]
-          });
-
-          this.http.get(`${this.base_url}${this.delete_cart}${this.userid}`).subscribe(val => {
-            console.log(val);
-          });
-          this.cartService.removeAll();
-          this.formulaImage = "";
-          this.requiredFormula = false;
-          await alert.present();
-
-        }
-        else {
-          console.log(mensaje);
-          const alert = await this.alertCtrl.create({
-            message: '<img src = "../../assets/img/RECURSOS/wrong.png" class="alert">Su orden no fue creada, intente de nuevo',
-            mode: 'ios',
-            cssClass: 'failed',
-            backdropDismiss: false,
-            buttons: [
-              {
-                text: 'Aceptar',
-                cssClass: 'btnalert',
-              }
-            ]
-          });
-          await alert.present();
-        }
-      });
-    }
+    await alert1.present();
+    
   }
 }

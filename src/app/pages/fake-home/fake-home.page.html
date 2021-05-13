@@ -1,0 +1,124 @@
+<ion-header class="ion-no-border" mode="ios">
+  <div class="div-header">
+    <ion-toolbar class="header-styles">
+      <img class="content-image" src="../../assets/img/LOGOS/LOGOS DRAZAMED_Mesa de trabajo 1.png" alt="">
+    </ion-toolbar>
+    <ion-buttons class="btn_i">
+      <ion-button class="carrito" (click)="login()">
+        Ingresar
+      </ion-button>
+    </ion-buttons>
+  </div>
+</ion-header>
+
+<ion-content mode="md">
+  <div class="searchbar">
+  </div>
+  <div class="container">
+    <p class="title_seccion">Categorías</p>
+    <div class="categorias">
+      <ion-grid class="grid-categorias">
+        <ion-row>
+          <ion-col size="12">
+            <ion-segment scrollable class="scrolli">
+              <ion-button class="btn_category ion-text-wrap textadjust" *ngFor="let data of items2"
+                (click)="goCat(data.group)">{{ data.group }}</ion-button>
+            </ion-segment>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+  <div class="container">
+    <ion-slides pager="true" [options]="sliderOpts" #mySlider mode="ios">
+      <!-- <ion-slide>
+        <div class="banner">
+          <div class="inner">
+            <img src="../../assets/img/RECURSOS/prueba-banner.jpeg" class="img_banner" alt="">
+          </div>
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <div class="banner">
+          <div class="inner">
+            <img src="../../assets/img/RECURSOS/img_banner.jpg" class="img_banner" alt="">
+          </div>
+        </div>
+      </ion-slide> -->
+
+      <ion-slide>
+        <div class="banner">
+          <div class="inner">
+            <img src="../../assets/img/RECURSOS/banner-2 (2).JPG" class="img_banner" alt="">
+          </div>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <!--<div class="container">
+<p class="title_seccion">Ofertas</p>
+<div class="categorias">
+<ion-grid>
+  <ion-row>
+    <ion-col size="6">
+         <div class="product">
+           <ion-card class="card_product">
+            <div>
+              <div class=" align-self-center pt-10 pb-10">
+                  <img src="../../assets/img/RECURSOS/dolex.jpeg" alt="" class="img-fluid">
+              </div>
+              <div class="align-self-center">
+                <ion-card-title class="price_product pt-20">$000.00</ion-card-title>
+                  <p class="name_product">Nombre</p>
+                
+                  <p class="description_product">Lorem ipsum dolor sit amet.</p>
+              </div>
+          </div>
+          <ion-button class="btn_product">Agregar</ion-button>
+           </ion-card>
+         </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</div>
+</div>-->
+
+  <div class="container">
+    <p class="title_seccion">Nuestros productos</p>
+    <div class="categorias">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <div class="product">
+              <ion-segment scrollable class="scrolli">
+                <ion-card class="card_product" color="light" *ngFor="let datas of items4">
+                  <div class="elementos">
+                    <div class=" align-self-center pt-10 pb-10">
+                      <img src={{base_url}}{{apiURL3}}{{datas.url_img}} alt="" class="img-fluid">
+                      <!-- <img src={{base_url}}{{apiUrl1}} class="img-fluid">-->
+                    </div>
+                    <div class="parrafos">
+                      <ion-card-title class="price_product pt-20">${{datas.mrp | number}}</ion-card-title>
+                      <p class="price_product1" *ngIf=" datas.units_value !== 0">{{datas.units}} a
+                        ${{(datas.mrp / datas.units_value).toFixed(2)}}</p>
+                      <p class="price_product1" *ngIf="datas.units_value == 0">{{datas.units}} a $0</p>
+                      <p class="name_product ion-text-wrap textadjust">{{datas.name}}</p>
+                      <p class="description_product ">{{datas.composition}}</p>
+                      <p *ngIf="datas.quantity <= 40" class="notavailable">No disponible</p>
+                      <p *ngIf="datas.quantity > 40" class="available">Disponible</p>
+
+                    </div>
+                  </div>
+                  <ion-button class="btn_product" (click)="addMed()" [disabled]="datas.quantity <= 40">Agregar
+                  </ion-button>
+                </ion-card>
+              </ion-segment>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

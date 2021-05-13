@@ -18,6 +18,9 @@ export class SlideshowPage implements OnInit {
 goLogin(){
   this.router.navigate(['login1']);
 }
+goFakeHome(){
+  this.router.navigate(['fake-home']);
+}
 ionViewWillEnter() {
   this.menuCtrl.enable(false);
  }

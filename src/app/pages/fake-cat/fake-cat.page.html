@@ -1,0 +1,73 @@
+<ion-header class="ion-no-border" mode="ios">
+  <div class="div-header">
+  <ion-toolbar class="header-styles">
+  <img class="content-image" src="../../assets/img/LOGOS/LOGOS DRAZAMED_Mesa de trabajo 1.png" alt="" >
+  </ion-toolbar>
+    <ion-buttons>
+      <ion-button slot="start" class="icono" (click)="goBack()">
+        <ion-icon size="large" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+</ion-header>
+
+<ion-content mode="md">
+
+  <div class="container">
+    <div class="title">
+      <p class="title_seccion">{{categorias}}</p>
+    </div>
+    <div class="categorias">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+             <div class="product" >
+              <ion-segment scrollable class="scrolli">
+                <ion-card class="card_product" color="light" *ngFor="let datas of searchres5"> 
+                  <div class="elementos">
+                    <div class=" align-self-center pt-10 pb-10">
+                        <img src={{base_url}}{{apiUrl5}}{{datas.url_img}} alt="" class="img-fluid">
+                         
+                    </div>
+                    <div class="align-self-center">
+                      <ion-card-title class="price_product pt-20">${{datas.mrp | number}}</ion-card-title>
+                      <p class="price_product1" *ngIf=" datas.units_value !== 0">{{datas.units}} a
+                        ${{(datas.mrp / datas.units_value).toFixed(2)}}</p>
+                      <p class="price_product1" *ngIf="datas.units_value == 0">{{datas.units}} a $0</p>
+                        <p class="name_product ion-text-wrap textadjust">{{datas.name}}</p>      
+                        <p class="description_product ">{{datas.composition}}</p>
+                        <p *ngIf="datas.quantity <= 50" class="notavailable">No disponible</p>
+                        <p *ngIf="datas.quantity > 50" class="available">Disponible</p>
+                      </div>
+                    </div>
+                    <ion-button class="btn_product" (click)="addToCart()" [disabled]="datas.quantity < 50">Agregar</ion-button> 
+                 </ion-card>
+               <ion-card class="card_product" color="light" *ngFor="let datas of searchres4"> 
+                <div class="elementos">
+                  <div class=" align-self-center pt-10 pb-10">
+                      <img src={{base_url}}{{apiUrl5}}{{datas.url_img}} alt="" class="img-fluid">
+                      
+                  </div>
+                  <div class="align-self-center">
+                    <ion-card-title class="price_product pt-20">${{datas.mrp | number}}</ion-card-title>
+                    <p class="price_product1" *ngIf=" datas.units_value !== 0">{{datas.units}} a
+                      ${{(datas.mrp / datas.units_value).toFixed(2)}}</p>
+                    <p class="price_product1" *ngIf="datas.units_value == 0">{{datas.units}} a $0</p>
+                      <p class="name_product ion-text-wrap textadjust">{{datas.name}}</p>      
+                      <p class="description_product ">{{datas.composition}}</p>
+                      <p *ngIf="datas.quantity <= 40" class="notavailable">No disponible</p>
+                      <p *ngIf="datas.quantity > 40" class="available">Disponible</p>
+                    </div>
+                  </div>
+                  <ion-button class="btn_product" (click)="addToCart()" [disabled]="datas.quantity <= 40">Agregar</ion-button> 
+               </ion-card>
+              </ion-segment>
+             </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</div>
+
+
+</ion-content>

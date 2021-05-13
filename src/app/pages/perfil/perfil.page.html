@@ -126,7 +126,7 @@
           <ion-col size="6" class="col_trat">
             <p class="grey" *ngIf="al.timeH !== 0 || al.timeD !== 0 || al.timeM !== 0">Próxima {{al.timeH}}H {{al.timeM}}Min ({{al.next_time}})</p>
             <p class="grey" *ngIf="al.timeH === 0 && al.timeD === 0 && al.timeM === 0 && al.next_date !== null">Recalculando próxima toma</p>
-            <p class="grey" *ngIf="al.next_date === null">Fin del tratamiento</p>
+            <p class="green" *ngIf="al.next_date === null">Fin del tratamiento</p>
          </ion-col>
          <!-- <ion-col size="1">
           <ion-toggle checked mode="ios" class="toggle"  [(ngModel)]="al.active"></ion-toggle>

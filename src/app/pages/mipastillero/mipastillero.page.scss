@@ -92,6 +92,10 @@ font-weight: 700;
   color: #727070 !important;
   margin-top: 0px;
   }
+.green {
+  color: #008000 !important;
+  margin-top: 0px;
+}
 .col_trat{
   text-align: left !important;
 }
@@ -265,6 +269,11 @@ a {
 @media (min-width: 600px) and (min-height: 950px) {
   .grey {
     color: #727070 !important;
+    font-size: 25px;
+    margin-top: 0px;
+  }
+  .green {
+    color: #008000 !important;
     font-size: 25px;
     margin-top: 0px;
   }

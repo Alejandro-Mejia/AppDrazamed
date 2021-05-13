@@ -118,10 +118,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/processtreatment/processtreatment.module').then( m => m.ProcesstreatmentPageModule), canActivate: [AuthGuard]
   },
   {
-    path: 'checkout',
-    loadChildren: () => import('./pages/checkout/checkout.module').then( m => m.CheckoutPageModule), canActivate: [AuthGuard]
-  },
-  {
     path: 'request-open',
     loadChildren: () => import('./pages/request-open/request-open.module').then( m => m.RequestOpenPageModule), canActivate: [AuthGuard]
   },
@@ -149,6 +145,15 @@ const routes: Routes = [
     path: 'proxima-entrega',
     loadChildren: () => import('./pages/proxima-entrega/proxima-entrega.module').then( m => m.ProximaEntregaPageModule), canActivate: [AuthGuard]
   },
+  {
+    path: 'fake-home',
+    loadChildren: () => import('./pages/fake-home/fake-home.module').then( m => m.FakeHomePageModule)
+  },
+  {
+    path: 'fake-cat',
+    loadChildren: () => import('./pages/fake-cat/fake-cat.module').then( m => m.FakeCatPageModule)
+  },
+
 
 
 
