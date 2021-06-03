@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
@@ -28,7 +28,9 @@ export class CreatealarmPage implements OnInit {
   items3: any;
   items4: any;
   items: any[] = [];
-
+  imgUrl = `images/products/default.png`;
+  apiImg = `images/products/`;
+  error1: any;
 
   constructor(private router: Router, private http: HttpClient, private config: ConfigService, private auth: AuthService,
     public menuCtrl: MenuController) {
@@ -90,6 +92,20 @@ export class CreatealarmPage implements OnInit {
 
     this.items = this.items7;
     console.log('this.items: ', this.items);
+    for(let imgs of this.items){
+      this.http.get(`${this.base_url}${this.apiImg}${imgs.item_code}${this.apiUrl8}`).subscribe((val) => {
+
+      }, async (err: HttpErrorResponse) => {
+        this.error1 = err.status;
+        console.log(this.error1);
+        if(this.error1 === 404){
+          imgs.imagen = true;
+        }
+        else{
+          imgs.imagen = false;
+        }
+      });
+    }
   }
   goBack() {
     this.router.navigate(['mipastillero']);

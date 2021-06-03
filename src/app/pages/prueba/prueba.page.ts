@@ -7,7 +7,7 @@ import { AlertController, LoadingController, MenuController, Platform } from '@i
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { TratamientosService } from 'src/app/services/tratamientos.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { Observable, Subject, timer, interval, Subscription } from 'rxjs';
@@ -47,6 +47,9 @@ export class PruebaPage implements OnInit {
   freq: any;
   response: any;
   medicamento: any;
+  imgUrl = `images/products/default.png`;
+  apiImg = `images/products/`;
+  error1: any;
 
   constructor(private router: Router, private route: ActivatedRoute, private config: ConfigService,
     public menuCtrl: MenuController, private loadingController: LoadingController,
@@ -69,6 +72,18 @@ export class PruebaPage implements OnInit {
       if (this.router.getCurrentNavigation().extras.state) {
         this.items = this.router.getCurrentNavigation().extras.state.user;
         console.log(this.items);
+        this.http.get(`${this.base_url}${this.apiImg}${this.items.item_code}${this.apiUrl8}`).subscribe((val) => {
+
+        }, async (err: HttpErrorResponse) => {
+          this.error1 = err.status;
+          console.log(this.error1);
+          if(this.error1 === 404){
+            this.items.imagen = true;
+          }
+          else{
+            this.items.imagen = false;
+          }
+        });
       }
     });
     this.fecha = moment().format('YYYY-MM-DD');

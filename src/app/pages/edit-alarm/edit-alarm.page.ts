@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/services/config.service';
 import * as moment from 'moment';
 import { AuthService } from 'src/app/services/auth.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { TratamientosService } from 'src/app/services/tratamientos.service';
 import { AlertController, MenuController } from '@ionic/angular';
 
@@ -26,6 +26,10 @@ export class EditAlarmPage implements OnInit {
   hora: any;
   freq: any;
   tratamiento: any;
+  imgUrl = `images/products/default.png`;
+  apiImg = `images/products/`;
+  error1: any;
+
   constructor(private config: ConfigService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
               private auth: AuthService, private http: HttpClient, private tratamientoService: TratamientosService,
               private alertCtrl: AlertController, public menuCtrl: MenuController) {
@@ -50,6 +54,18 @@ export class EditAlarmPage implements OnInit {
       if (this.router.getCurrentNavigation().extras.state) {
         this.items = this.router.getCurrentNavigation().extras.state.user;
         console.log(this.items);
+        this.http.get(`${this.base_url}${this.apiImg}${this.items.item_code}${this.apiUrl8}`).subscribe((val) => {
+
+        }, async (err: HttpErrorResponse) => {
+          this.error1 = err.status;
+          console.log(this.error1);
+          if(this.error1 === 404){
+            this.items.imagen = true;
+          }
+          else{
+            this.items.imagen = false;
+          }
+        });
       }
     });
     this.fecha = moment().format('YYYY-MM-DD');

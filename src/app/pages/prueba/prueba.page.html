@@ -22,7 +22,13 @@
     <ion-row class="result_search">
         <ion-col size="4">
           <div class="img_product">
-            <img src={{base_url}}{{apiUrl7}}{{items.item_code}}{{apiUrl8}} class="img-fluid">
+            <div *ngIf="items.imagen === false" >
+              <img src={{base_url}}{{apiImg}}{{items.item_code}}{{apiUrl8}} class="img-fluid">
+            </div>
+            <div *ngIf="items.imagen === true" >
+              <img src={{base_url}}{{imgUrl}} class="img-fluid">
+            </div>
+            <!-- <img src={{base_url}}{{apiUrl7}}{{items.item_code}}{{apiUrl8}} class="img-fluid"> -->
           </div>
         </ion-col>
         <ion-col size="8" class="align-self">

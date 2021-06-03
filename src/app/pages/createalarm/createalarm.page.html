@@ -24,7 +24,12 @@
       <ion-item  button *ngFor="let it of items " (click)="fillSearchbarText(it)">
         <ion-row class="result_search">
           <ion-col size="3" class="align-self img_product">
-            <img src={{base_url}}{{apiUrl7}}{{it.item_code}}{{apiUrl8}} class="mx-auto d-block" width="100%">
+            <div *ngIf="it.imagen === false" >
+              <img src={{base_url}}{{apiImg}}{{it.item_code}}{{apiUrl8}} class="mx-auto d-block" width="100%">
+            </div>
+            <div *ngIf="it.imagen === true" >
+              <img src={{base_url}}{{imgUrl}} class="mx-auto d-block" width="100%">
+            </div>
           </ion-col>
           <ion-col size="9" class="align-self">
              <p class="name_product">{{it.item_name}}</p>
