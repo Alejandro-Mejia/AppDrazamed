@@ -3,6 +3,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ConfigService } from 'src/app/services/config.service';
 import * as moment from 'moment';
 import { MenuController } from '@ionic/angular';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-processtreatment',
@@ -21,11 +22,31 @@ export class ProcesstreatmentPage implements OnInit {
   faltantes: any;
   taken: any;
   fecha: any;
-  constructor(private router: Router, private route: ActivatedRoute, private config: ConfigService, public menuCtrl: MenuController) {
+  imgUrl = `images/products/default.png`;
+  apiImg = `images/products/`;
+  error1: any;
+
+  constructor(private router: Router, 
+    private route: ActivatedRoute, 
+    private config: ConfigService, 
+    public menuCtrl: MenuController, 
+    private http:HttpClient) {
     this.base_url = config.get_base_url();
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.alarma = this.router.getCurrentNavigation().extras.state.user;
+        this.http.get(`${this.base_url}${this.apiImg}${this.alarma.item_code}${this.apiUrl8}`).subscribe((val) => {
+
+        }, async (err: HttpErrorResponse) => {
+          this.error1 = err.status;
+          console.log(this.error1);
+          if(this.error1 === 404){
+            this.alarma.imagen = true;
+          }
+          else{
+            this.alarma.imagen = false;
+          }
+        });
         this.fecha = moment(this.alarma.next_date).format('L')
         console.log(this.alarma);
         this.taken = this.alarma.taken;

@@ -3,7 +3,7 @@ import { MenuController, IonSlides, AlertController, LoadingController, Platform
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NavigationExtras, Router } from '@angular/router';
 import { ConfigService } from 'src/app/services/config.service'
 import { finalize } from 'rxjs/operators';
@@ -41,10 +41,12 @@ export class PerfilPage implements OnInit, OnDestroy {
   alar = [];
   base_url: any;
   alarmas = [];
+  imgUrl = `images/products/default.png`;
   items: any;
   items2 = [];
   apiUrl7 = `images/products/`;
   apiUrl8 = `.jpg`;
+   apiImg = `images/products/`;
   proxima = [];
   prox: any;
   alarma: any;
@@ -55,6 +57,7 @@ export class PerfilPage implements OnInit, OnDestroy {
   items3: any;
   intervalos: any = [];
   alarm = [];
+  error1: any;
   constructor(
     public menuCtrl: MenuController,
     private cartService: CartService,
@@ -93,6 +96,20 @@ export class PerfilPage implements OnInit, OnDestroy {
     
     let prox = this.tratamientoService.getProxPedido();
     console.log('prox: ', prox);
+    for(let imgs of prox){
+      this.http.get(`${this.base_url}${this.apiImg}${imgs.item_code}${this.apiUrl8}`).subscribe((val) => {
+
+      }, async (err: HttpErrorResponse) => {
+        this.error1 = err.status;
+        console.log(this.error1);
+        if(this.error1 === 404){
+          imgs.imagen = true;
+        }
+        else{
+          imgs.imagen = false;
+        }
+      });
+    }
   }
   ngOnDestroy() {
 

@@ -77,7 +77,12 @@
   </ion-buttons>
  </ion-col>
  <ion-col size="3" class="align-self img_product">
-   <img src={{base_url}}{{apiUrl7}}{{al.item_code}}{{apiUrl8}} width="100%" class="imagen_med">
+  <div *ngIf="al.imagen === false" >
+    <img src={{base_url}}{{apiImg}}{{al.item_code}}{{apiUrl8}} class="img_product" width="100%">
+  </div>
+  <div *ngIf="al.imagen === true" >
+    <img src={{base_url}}{{imgUrl}} class="img_product" width="100%">
+  </div>
  </ion-col>
  <ion-col size="5" class="align-self">
    <p class="name_product">{{al.item_name}}</p>

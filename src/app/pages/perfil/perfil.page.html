@@ -138,7 +138,13 @@
           </ion-buttons>
          </ion-col>
             <ion-col size="3" class="img_product">
-              <img src={{base_url}}{{apiUrl7}}{{al.item_code}}{{apiUrl8}} class="img_med">
+              <div *ngIf="al.imagen === false" >
+                <img src={{base_url}}{{apiImg}}{{al.item_code}}{{apiUrl8}} class="img_product" width="100%">
+              </div>
+              <div *ngIf="al.imagen === true" >
+                <img src={{base_url}}{{imgUrl}} class="img_product" width="100%">
+              </div>
+              <!-- <img src={{base_url}}{{apiUrl7}}{{al.item_code}}{{apiUrl8}} class="img_med"> -->
             </ion-col>
             <ion-col size="5" class="col-5">
               <p class="name_product">{{al.item_name}}</p>

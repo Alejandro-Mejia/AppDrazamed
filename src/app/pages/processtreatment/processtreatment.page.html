@@ -20,7 +20,12 @@
   <ion-row class="result_search">
     <div class="select_options">
       <ion-col size="12" class="align-self">
-        <img src={{base_url}}{{apiUrl7}}{{alarma.item_code}}{{apiUrl8}} width="40%" class="mx-auto d-block">
+        <div *ngIf="alarma.imagen === false" >
+          <img src={{base_url}}{{apiImg}}{{alarma.item_code}}{{apiUrl8}} class="mx-auto d-block" width="40%">
+        </div>
+        <div *ngIf="alarma.imagen === true" >
+          <img src={{base_url}}{{imgUrl}} class="mx-auto d-block" width="40%">
+        </div>
       </ion-col>
     </div>
     <div class="select_options">

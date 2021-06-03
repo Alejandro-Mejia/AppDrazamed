@@ -8,7 +8,7 @@ import { ConfigService } from 'src/app/services/config.service';
 import { TratamientosService } from 'src/app/services/tratamientos.service';
 import { AuthService } from 'src/app/services/auth.service';
 import * as moment from 'moment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-mipastillero',
@@ -35,6 +35,9 @@ items3: any;
 alarm = [];
 alar: any;
 user: any;
+imgUrl = `images/products/default.png`;
+apiImg = `images/products/`;
+error1: any;
 
   @ViewChild('mySlider') slider: IonSlides;
   sliderOpts = {
@@ -59,6 +62,20 @@ user: any;
     this.menuCtrl.enable(true);
     console.log(this.alarmas);
     console.log('entrando');
+    for(let imgs of this.alarmas){
+      this.http.get(`${this.base_url}${this.apiImg}${imgs.item_code}${this.apiUrl8}`).subscribe((val) => {
+
+      }, async (err: HttpErrorResponse) => {
+        this.error1 = err.status;
+        console.log(this.error1);
+        if(this.error1 === 404){
+          imgs.imagen = true;
+        }
+        else{
+          imgs.imagen = false;
+        }
+      });
+    }
   }
  /*  getTreatments(){
     // this.alarmas.splice(0, this.alarmas.length);
