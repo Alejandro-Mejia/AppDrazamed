@@ -43,7 +43,7 @@
       </ion-item>-->
       <ion-item>
         <ion-checkbox formControlName="aceptar" [(ngModel)]="accept" name="accept" ngControl="accept"  color="success" mode="ios"></ion-checkbox>
-        <ion-label class="label-checkbox">Aceptar términos y condiciones</ion-label>
+        <a class="link" href="https://drazamed.com/terminos">Aceptar términos, condiciones y política de tratamiento de datos</a>
       </ion-item>
       <div *ngFor="let error of error_messages.aceptar">
         <ng-container *ngIf="registroForm.get('aceptar').hasError(error.type) && 
